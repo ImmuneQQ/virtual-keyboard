@@ -205,7 +205,6 @@ document.addEventListener('keydown', (event) => {
           keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
         }
       }
-      console.log(keyboardElem.textContent);
     });
     if (caps === true) {
       caps = false;
