@@ -181,6 +181,10 @@ document.addEventListener('keydown', (event) => {
 
   const buttonElem = keyboard.querySelector(`div[data-key-code="${event.code}"]`);
 
+  if (!buttonElem) {
+    return;
+  }
+
   const cursorIndex = textarea.selectionStart;
 
   if (event.code === 'CapsLock') {
@@ -341,6 +345,10 @@ document.addEventListener('keyup', (event) => {
   }
 
   const buttonElem = keyboard.querySelector(`div[data-key-code="${event.code}"]`);
+
+  if (!buttonElem) {
+    return;
+  }
 
   if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
     const keyboardElems = keyboard.querySelectorAll('.button');
