@@ -36,8 +36,20 @@ h1 {
 }
 
 .button {
+  box-sizing: border-box;
+  height: 40px;
+  min-width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
   background-color: #000;
   color: #fff;
   line-height: 1;
+  transition: .3s;
+}
+
+.button.active {
+  background-color: #999;
+  border-radius: 20px;
 }
