@@ -21,6 +21,12 @@ h1 {
 
 .main__title {
   text-align: center;
+  line-height: 1;
+}
+
+.textarea {
+  width: 700px;
+  height: 200px;
 }
 
 .keyboard {
@@ -46,7 +52,14 @@ h1 {
   background-color: #000;
   color: #fff;
   line-height: 1;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
   transition: .3s;
+}
+
+.button:hover {
+  background-color: #666;
 }
 
 .button.active {
