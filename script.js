@@ -166,6 +166,17 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
+  if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+    const keyboardElems = keyboard.querySelectorAll('.button');
+    keyboardElems.forEach((keyboardElem) => {
+      const keyboardElemNew = keyboardElem;
+      keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+    });
+    buttonElem.classList.add('active');
+
+    return;
+  }
+
   if (event.code === 'Tab') {
     textarea.value = `${textarea.value.slice(0, cursorIndex)}    ${textarea.value.slice(cursorIndex)}`;
     textarea.selectionStart = cursorIndex + 4;
@@ -226,8 +237,20 @@ document.addEventListener('keyup', (event) => {
     return;
   }
 
-  const button = keyboard.querySelector(`div[data-key-code="${event.code}"]`);
-  button.classList.remove('active');
+  const buttonElem = keyboard.querySelector(`div[data-key-code="${event.code}"]`);
+
+  if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+    const keyboardElems = keyboard.querySelectorAll('.button');
+    keyboardElems.forEach((keyboardElem) => {
+      const keyboardElemNew = keyboardElem;
+      keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+    });
+    buttonElem.classList.remove('active');
+
+    return;
+  }
+
+  buttonElem.classList.remove('active');
 });
 
 keyboard.addEventListener('mousedown', (event) => {
