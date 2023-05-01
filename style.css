@@ -1,0 +1,20 @@
+/* reset */
+
+body {
+  margin: 0;
+}
+
+h1 {
+  margin: 0;
+}
+
+/* basic */
+
+.main {
+  padding: 10px;
+}
+
+.main__title {
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+}
