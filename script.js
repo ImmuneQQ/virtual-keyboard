@@ -205,6 +205,7 @@ document.addEventListener('keydown', (event) => {
           keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
         }
       }
+      console.log(keyboardElem.textContent);
     });
     if (caps === true) {
       caps = false;
@@ -368,16 +369,21 @@ document.addEventListener('keyup', (event) => {
 
 keyboard.addEventListener('mousedown', (event) => {
   if (event.target.classList.contains('button')) {
-    event.target.classList.add('active');
+    document.dispatchEvent(new KeyboardEvent('keydown', {
+      code: event.target.dataset.keyCode,
+    }));
   }
 });
 
 document.addEventListener('mouseup', () => {
   const keyboardButtons = keyboard.querySelectorAll('.button');
   keyboardButtons.forEach((keyboardButton) => {
-    if (keyboardButton.dataset.keyCode !== 'CapsLock') {
-      keyboardButton.classList.remove('active');
-    }
+    // if (keyboardButton.dataset.keyCode !== 'CapsLock') {
+    //   keyboardButton.classList.remove('active');
+    // }
+    document.dispatchEvent(new KeyboardEvent('keyup', {
+      code: keyboardButton.dataset.keyCode,
+    }));
   });
 });
 

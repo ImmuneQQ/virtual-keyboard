@@ -27,6 +27,8 @@ h1 {
 .textarea {
   width: 700px;
   height: 200px;
+  font-size: 18px;
+  padding: 5px 10px;
 }
 
 .keyboard {
