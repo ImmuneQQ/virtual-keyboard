@@ -10,6 +10,8 @@ class Button {
 }
 
 let caps = false;
+let lang = localStorage.getItem('lang') ? localStorage.getItem('lang') : 'en';
+const pressed = new Set();
 
 const pageBody = document.querySelector('body');
 const pageMain = document.createElement('main');
@@ -126,10 +128,49 @@ const enAlphabet = [
   'KeyN',
   'KeyM',
 ];
+const ruAlphabet = [
+  'KeyQ',
+  'KeyW',
+  'KeyE',
+  'KeyR',
+  'KeyT',
+  'KeyY',
+  'KeyU',
+  'KeyI',
+  'KeyO',
+  'KeyP',
+  'KeyA',
+  'KeyS',
+  'KeyD',
+  'KeyF',
+  'KeyG',
+  'KeyH',
+  'KeyJ',
+  'KeyK',
+  'KeyL',
+  'KeyZ',
+  'KeyX',
+  'KeyC',
+  'KeyV',
+  'KeyB',
+  'KeyN',
+  'KeyM',
+  'BracketLeft',
+  'BracketRight',
+  'Semicolon',
+  'Quote',
+  'Comma',
+  'Period',
+];
 Object.values(buttons).forEach((button) => {
   const buttonItem = document.createElement('div');
   buttonItem.classList.add('button');
-  buttonItem.textContent = button.textEn;
+  buttonItem.classList.add(button.event);
+  if (lang === 'en') {
+    buttonItem.textContent = button.textEn;
+  } else {
+    buttonItem.textContent = button.textRu;
+  }
   buttonItem.dataset.keyCode = button.event;
   keyboard.querySelectorAll('.row')[button.row - 1].append(buttonItem);
 });
@@ -145,13 +186,23 @@ document.addEventListener('keydown', (event) => {
   if (event.code === 'CapsLock') {
     const keyboardElems = keyboard.querySelectorAll('.button');
     keyboardElems.forEach((keyboardElem) => {
-      if (enAlphabet.includes(keyboardElem.dataset.keyCode)) {
+      if (lang === 'en') {
+        if (enAlphabet.includes(keyboardElem.dataset.keyCode)) {
+          if (caps === false) {
+            const keyboardElemNew = keyboardElem;
+            keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+          } else {
+            const keyboardElemNew = keyboardElem;
+            keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+          }
+        }
+      } else if (ruAlphabet.includes(keyboardElem.dataset.keyCode)) {
         if (caps === false) {
           const keyboardElemNew = keyboardElem;
-          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
         } else {
           const keyboardElemNew = keyboardElem;
-          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
         }
       }
     });
@@ -170,7 +221,11 @@ document.addEventListener('keydown', (event) => {
     const keyboardElems = keyboard.querySelectorAll('.button');
     keyboardElems.forEach((keyboardElem) => {
       const keyboardElemNew = keyboardElem;
-      keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+      if (lang === 'en') {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+      } else {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
+      }
     });
     buttonElem.classList.add('active');
 
@@ -220,7 +275,55 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
-  if (event.code === 'AltLeft' || event.code === 'AltRight' || event.code === 'ControlLeft' || event.code === 'ControlRight' || event.code === 'MetaLeft') {
+  if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
+    pressed.add(event.code);
+    if (pressed.has('AltLeft') || pressed.has('AltRight')) {
+      const keyboardElems = keyboard.querySelectorAll('.button');
+      if (lang === 'en') {
+        keyboardElems.forEach((keyboardElem) => {
+          const keyboardElemNew = keyboardElem;
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
+        });
+        lang = 'ru';
+        localStorage.setItem('lang', 'ru');
+      } else {
+        keyboardElems.forEach((keyboardElem) => {
+          const keyboardElemNew = keyboardElem;
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+        });
+        lang = 'en';
+        localStorage.setItem('lang', 'en');
+      }
+    }
+    buttonElem.classList.add('active');
+    return;
+  }
+
+  if (event.code === 'AltLeft' || event.code === 'AltRight') {
+    pressed.add(event.code);
+    if (pressed.has('ControlLeft') || pressed.has('ControlRight')) {
+      const keyboardElems = keyboard.querySelectorAll('.button');
+      if (lang === 'en') {
+        keyboardElems.forEach((keyboardElem) => {
+          const keyboardElemNew = keyboardElem;
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
+        });
+        lang = 'ru';
+        localStorage.setItem('lang', 'ru');
+      } else {
+        keyboardElems.forEach((keyboardElem) => {
+          const keyboardElemNew = keyboardElem;
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+        });
+        lang = 'en';
+        localStorage.setItem('lang', 'en');
+      }
+    }
+    buttonElem.classList.add('active');
+    return;
+  }
+
+  if (event.code === 'MetaLeft') {
     buttonElem.classList.add('active');
     return;
   }
@@ -243,10 +346,20 @@ document.addEventListener('keyup', (event) => {
     const keyboardElems = keyboard.querySelectorAll('.button');
     keyboardElems.forEach((keyboardElem) => {
       const keyboardElemNew = keyboardElem;
-      keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+      if (lang === 'en') {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+      } else {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
+      }
     });
     buttonElem.classList.remove('active');
 
+    return;
+  }
+
+  if (event.code === 'AltLeft' || event.code === 'AltRight' || event.code === 'ControlLeft' || event.code === 'ControlRight') {
+    pressed.delete(event.code);
+    buttonElem.classList.remove('active');
     return;
   }
 
@@ -267,3 +380,7 @@ document.addEventListener('mouseup', () => {
     }
   });
 });
+
+const description = document.createElement('div');
+description.innerHTML = 'Клавиатура создана в операционной системе Windows<br>Для переключения языка комбинация: левыe ctrl + alt';
+pageMain.append(description);

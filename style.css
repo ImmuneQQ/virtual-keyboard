@@ -58,6 +58,14 @@ h1 {
   transition: .3s;
 }
 
+.button.Space,
+.button.ShiftLeft,
+.button.ShiftRight,
+.button.Enter,
+.button.CapsLock {
+  width: 100%;
+}
+
 .button:hover {
   background-color: #666;
 }
