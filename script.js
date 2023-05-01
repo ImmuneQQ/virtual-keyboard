@@ -140,7 +140,7 @@ document.addEventListener('keydown', (event) => {
 
   const buttonElem = keyboard.querySelector(`div[data-key-code="${event.code}"]`);
 
-  const button = Object.values(buttons).find((b) => b.event === event.code);
+  const cursorIndex = textarea.selectionStart;
 
   if (event.code === 'CapsLock') {
     const keyboardElems = keyboard.querySelectorAll('.button');
@@ -166,8 +166,59 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
+  if (event.code === 'Tab') {
+    textarea.value = `${textarea.value.slice(0, cursorIndex)}    ${textarea.value.slice(cursorIndex)}`;
+    textarea.selectionStart = cursorIndex + 4;
+    textarea.selectionEnd = cursorIndex + 4;
+    return;
+  }
+
+  if (event.code === 'Space') {
+    textarea.value = `${textarea.value.slice(0, cursorIndex)} ${textarea.value.slice(cursorIndex)}`;
+    textarea.selectionStart = cursorIndex + 1;
+    textarea.selectionEnd = cursorIndex + 1;
+    return;
+  }
+
+  if (event.code === 'Enter') {
+    textarea.value = `${textarea.value.slice(0, cursorIndex)}\n${textarea.value.slice(cursorIndex)}`;
+    textarea.selectionStart = cursorIndex + 1;
+    textarea.selectionEnd = cursorIndex + 1;
+    return;
+  }
+
+  if (event.code === 'Backspace') {
+    if (cursorIndex > 0) {
+      textarea.value = textarea.value
+        .slice(0, cursorIndex - 1) + textarea.value.slice(cursorIndex);
+      textarea.selectionStart = cursorIndex - 1;
+      textarea.selectionEnd = cursorIndex - 1;
+    }
+
+    return;
+  }
+
+  if (event.code === 'Delete') {
+    if (cursorIndex < textarea.value.length) {
+      textarea.value = textarea.value
+        .slice(0, cursorIndex) + textarea.value.slice(cursorIndex + 1);
+      textarea.selectionStart = cursorIndex;
+      textarea.selectionEnd = cursorIndex;
+    }
+
+    return;
+  }
+
+  if (event.code === 'AltLeft' || event.code === 'AltRight' || event.code === 'ControlLeft' || event.code === 'ControlRight' || event.code === 'MetaLeft') {
+    buttonElem.classList.add('active');
+    return;
+  }
+
   buttonElem.classList.add('active');
-  textarea.value += buttonElem.textContent;
+  textarea.value = textarea.value
+    .slice(0, cursorIndex) + buttonElem.textContent + textarea.value.slice(cursorIndex);
+  textarea.selectionStart = cursorIndex + 1;
+  textarea.selectionEnd = cursorIndex + 1;
 });
 
 document.addEventListener('keyup', (event) => {
@@ -188,6 +239,8 @@ keyboard.addEventListener('mousedown', (event) => {
 document.addEventListener('mouseup', () => {
   const keyboardButtons = keyboard.querySelectorAll('.button');
   keyboardButtons.forEach((keyboardButton) => {
-    keyboardButton.classList.remove('active');
+    if (keyboardButton.dataset.keyCode !== 'CapsLock') {
+      keyboardButton.classList.remove('active');
+    }
   });
 });
