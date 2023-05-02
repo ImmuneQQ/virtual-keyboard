@@ -161,6 +161,7 @@ const ruAlphabet = [
   'Quote',
   'Comma',
   'Period',
+  'Backquote',
 ];
 Object.values(buttons).forEach((button) => {
   const buttonItem = document.createElement('div');
@@ -267,18 +268,27 @@ function removeAfter(cursorIndex) {
 }
 
 function changeLanguage() {
-  const keyboardElems = keyboard.querySelectorAll('.button');
+  const keyboardElements = keyboard.querySelectorAll('.button');
   if (lang === 'en') {
-    keyboardElems.forEach((keyboardElem) => {
+    keyboardElements.forEach((keyboardElem) => {
       const keyboardElemNew = keyboardElem;
-      keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
+
+      if (caps === true && ruAlphabet.includes(keyboardElem.dataset.keyCode)) {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
+      } else {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
+      }
     });
     lang = 'ru';
     localStorage.setItem('lang', 'ru');
   } else {
-    keyboardElems.forEach((keyboardElem) => {
+    keyboardElements.forEach((keyboardElem) => {
       const keyboardElemNew = keyboardElem;
-      keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+      if (caps === true && enAlphabet.includes(keyboardElem.dataset.keyCode)) {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+      } else {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+      }
     });
     lang = 'en';
     localStorage.setItem('lang', 'en');
