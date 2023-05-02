@@ -272,7 +272,6 @@ function changeLanguage() {
   if (lang === 'en') {
     keyboardElements.forEach((keyboardElem) => {
       const keyboardElemNew = keyboardElem;
-
       if (caps === true && ruAlphabet.includes(keyboardElem.dataset.keyCode)) {
         keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
       } else {
@@ -314,12 +313,12 @@ document.addEventListener('keydown', (event) => {
   const cursorIndex = textarea.selectionStart;
 
   if (event.code === 'CapsLock') {
-    capsLetters();
     if (caps === true) {
       buttonElem.classList.remove('active');
     } else {
       buttonElem.classList.add('active');
     }
+    capsLetters();
     return;
   }
 
