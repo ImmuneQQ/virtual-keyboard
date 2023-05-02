@@ -10,6 +10,7 @@ class Button {
 }
 
 let caps = false;
+let shift = false;
 let lang = localStorage.getItem('lang') ? localStorage.getItem('lang') : 'en';
 const pressed = new Set();
 
@@ -178,11 +179,21 @@ Object.values(buttons).forEach((button) => {
 pageMain.append(keyboard);
 
 function capsLetters() {
+  if (caps === true) {
+    caps = false;
+  } else {
+    caps = true;
+  }
+
+  if (shift === true) {
+    return;
+  }
+
   const keyboardElements = keyboard.querySelectorAll('.button');
   keyboardElements.forEach((keyboardElem) => {
     if (lang === 'en') {
       if (enAlphabet.includes(keyboardElem.dataset.keyCode)) {
-        if (caps === false) {
+        if (caps === true) {
           const keyboardElemNew = keyboardElem;
           keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
         } else {
@@ -191,7 +202,7 @@ function capsLetters() {
         }
       }
     } else if (ruAlphabet.includes(keyboardElem.dataset.keyCode)) {
-      if (caps === false) {
+      if (caps === true) {
         const keyboardElemNew = keyboardElem;
         keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
       } else {
@@ -200,11 +211,6 @@ function capsLetters() {
       }
     }
   });
-  if (caps === true) {
-    caps = false;
-  } else {
-    caps = true;
-  }
 }
 
 function shiftButtons() {
@@ -217,6 +223,7 @@ function shiftButtons() {
       keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
     }
   });
+  shift = true;
 }
 
 function unshiftButtons() {
@@ -224,11 +231,14 @@ function unshiftButtons() {
   keyboardElements.forEach((keyboardElem) => {
     const keyboardElemNew = keyboardElem;
     if (lang === 'en') {
-      keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
-    } else {
+      if (!(enAlphabet.includes(keyboardElemNew.dataset.keyCode) && caps === true)) {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+      }
+    } else if (!(ruAlphabet.includes(keyboardElemNew.dataset.keyCode) && caps === true)) {
       keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
     }
   });
+  shift = false;
 }
 
 function addHorizontalOffset(cursorIndex) {
