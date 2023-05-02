@@ -232,7 +232,6 @@ document.addEventListener('keydown', (event) => {
       }
     });
     buttonElem.classList.add('active');
-
     return;
   }
 
@@ -240,6 +239,7 @@ document.addEventListener('keydown', (event) => {
     textarea.value = `${textarea.value.slice(0, cursorIndex)}    ${textarea.value.slice(cursorIndex)}`;
     textarea.selectionStart = cursorIndex + 4;
     textarea.selectionEnd = cursorIndex + 4;
+    buttonElem.classList.add('active');
     return;
   }
 
@@ -247,6 +247,7 @@ document.addEventListener('keydown', (event) => {
     textarea.value = `${textarea.value.slice(0, cursorIndex)} ${textarea.value.slice(cursorIndex)}`;
     textarea.selectionStart = cursorIndex + 1;
     textarea.selectionEnd = cursorIndex + 1;
+    buttonElem.classList.add('active');
     return;
   }
 
@@ -254,6 +255,7 @@ document.addEventListener('keydown', (event) => {
     textarea.value = `${textarea.value.slice(0, cursorIndex)}\n${textarea.value.slice(cursorIndex)}`;
     textarea.selectionStart = cursorIndex + 1;
     textarea.selectionEnd = cursorIndex + 1;
+    buttonElem.classList.add('active');
     return;
   }
 
@@ -264,7 +266,7 @@ document.addEventListener('keydown', (event) => {
       textarea.selectionStart = cursorIndex - 1;
       textarea.selectionEnd = cursorIndex - 1;
     }
-
+    buttonElem.classList.add('active');
     return;
   }
 
@@ -275,7 +277,7 @@ document.addEventListener('keydown', (event) => {
       textarea.selectionStart = cursorIndex;
       textarea.selectionEnd = cursorIndex;
     }
-
+    buttonElem.classList.add('active');
     return;
   }
 
