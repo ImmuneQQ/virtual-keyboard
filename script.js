@@ -405,6 +405,7 @@ document.addEventListener('keyup', (event) => {
 
 keyboard.addEventListener('mousedown', (event) => {
   if (event.target.classList.contains('button')) {
+    textarea.focus();
     document.dispatchEvent(new KeyboardEvent('keydown', {
       code: event.target.dataset.keyCode,
     }));
