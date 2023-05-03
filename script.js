@@ -185,29 +185,34 @@ function capsLetters() {
     caps = true;
   }
 
-  if (shift === true) {
-    return;
-  }
-
   const keyboardElements = keyboard.querySelectorAll('.button');
   keyboardElements.forEach((keyboardElem) => {
+    const keyboardElemNew = keyboardElem;
     if (lang === 'en') {
       if (enAlphabet.includes(keyboardElem.dataset.keyCode)) {
-        if (caps === true) {
-          const keyboardElemNew = keyboardElem;
-          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
-        } else {
-          const keyboardElemNew = keyboardElem;
+        if (shift === false) {
+          if (caps === true) {
+            keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+          } else {
+            keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+          }
+        } else if (caps === true) {
           keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+        } else {
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
         }
       }
     } else if (ruAlphabet.includes(keyboardElem.dataset.keyCode)) {
-      if (caps === true) {
-        const keyboardElemNew = keyboardElem;
-        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
-      } else {
-        const keyboardElemNew = keyboardElem;
+      if (shift === false) {
+        if (caps === true) {
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
+        } else {
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
+        }
+      } else if (caps === true) {
         keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
+      } else {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
       }
     }
   });
@@ -218,9 +223,18 @@ function shiftButtons() {
   keyboardElements.forEach((keyboardElem) => {
     const keyboardElemNew = keyboardElem;
     if (lang === 'en') {
-      keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+      if (caps === true && enAlphabet.includes(keyboardElemNew.dataset.keyCode)) {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+      } else {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+      }
     } else {
       keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
+      if (caps === true && ruAlphabet.includes(keyboardElemNew.dataset.keyCode)) {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
+      } else {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
+      }
     }
   });
   shift = true;
@@ -231,10 +245,14 @@ function unshiftButtons() {
   keyboardElements.forEach((keyboardElem) => {
     const keyboardElemNew = keyboardElem;
     if (lang === 'en') {
-      if (!(enAlphabet.includes(keyboardElemNew.dataset.keyCode) && caps === true)) {
+      if (enAlphabet.includes(keyboardElemNew.dataset.keyCode) && caps === true) {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+      } else {
         keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
       }
-    } else if (!(ruAlphabet.includes(keyboardElemNew.dataset.keyCode) && caps === true)) {
+    } else if (ruAlphabet.includes(keyboardElemNew.dataset.keyCode) && caps === true) {
+      keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
+    } else {
       keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
     }
   });
@@ -282,10 +300,16 @@ function changeLanguage() {
   if (lang === 'en') {
     keyboardElements.forEach((keyboardElem) => {
       const keyboardElemNew = keyboardElem;
-      if (caps === true && ruAlphabet.includes(keyboardElem.dataset.keyCode)) {
-        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
-      } else {
+      if (shift === false) {
+        if (caps === true && ruAlphabet.includes(keyboardElem.dataset.keyCode)) {
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
+        } else {
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
+        }
+      } else if (caps === true && ruAlphabet.includes(keyboardElem.dataset.keyCode)) {
         keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRu;
+      } else {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textRuShift;
       }
     });
     lang = 'ru';
@@ -293,10 +317,16 @@ function changeLanguage() {
   } else {
     keyboardElements.forEach((keyboardElem) => {
       const keyboardElemNew = keyboardElem;
-      if (caps === true && enAlphabet.includes(keyboardElem.dataset.keyCode)) {
-        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
-      } else {
+      if (shift === false) {
+        if (caps === true && enAlphabet.includes(keyboardElem.dataset.keyCode)) {
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
+        } else {
+          keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+        }
+      } else if (caps === true && enAlphabet.includes(keyboardElem.dataset.keyCode)) {
         keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEn;
+      } else {
+        keyboardElemNew.textContent = buttons[keyboardElem.dataset.keyCode].textEnShift;
       }
     });
     lang = 'en';
