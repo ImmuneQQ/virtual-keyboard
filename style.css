@@ -1,0 +1,78 @@
+/* reset */
+
+body {
+  margin: 0;
+}
+
+h1 {
+  margin: 0;
+}
+
+/* basic */
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 10px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.main__title {
+  text-align: center;
+  line-height: 1;
+}
+
+.textarea {
+  width: 700px;
+  height: 200px;
+  font-size: 18px;
+  padding: 5px 10px;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.button {
+  box-sizing: border-box;
+  height: 40px;
+  min-width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
+  line-height: 1;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  transition: .3s;
+}
+
+.button.Space,
+.button.ShiftLeft,
+.button.ShiftRight,
+.button.Enter,
+.button.CapsLock {
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #666;
+}
+
+.button.active {
+  background-color: #999;
+  border-radius: 20px;
+}
